@@ -1,17 +1,29 @@
 import { Routes, Route } from 'react-router-dom';
-import { Header } from './components/header';
-import { OverviewPage } from './pages/overview';
+import { Header } from './components/Header';
+import { styled } from 'styled-components';
+import { Overview } from './pages/Overview';
+import { useSelector } from 'react-redux'
+import { Login } from './pages/Login';
+
+const RouteWrapper = styled.div`
+    padding-right: 32px;
+    padding-left: 32px;
+`;
 
 const App: React.FC = () => {
+    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn);
+
     return (
-        <>
+        !isLoggedIn
+        ? <Login/>
+        : <>
             <Header />
-            <div style={{ paddingRight: '32px', paddingLeft: '32px' }}>
+            <RouteWrapper>
                 <Routes>
-                    <Route path="/" element={<OverviewPage />} />
+                    <Route path="/" element={<Overview />} />
                     <Route path="/about" element={<>ABOUT</>} />
                 </Routes>
-            </div>
+            </RouteWrapper>
         </>
     );
 };
